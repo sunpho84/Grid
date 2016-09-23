@@ -42,8 +42,9 @@ class HmcRunner : public NerscHmcRunner {
   void BuildTheAction(int argc, char **argv)
 
   {
+    //typedef T_AntiPeriodicWilsonImplR ImplPolicy;
     typedef WilsonImplR ImplPolicy;
-    typedef WilsonFermionR FermionAction;
+    typedef WilsonFermion<ImplPolicy> FermionAction;
     typedef typename FermionAction::FermionField FermionField;
 
     UGrid = SpaceTimeGrid::makeFourDimGrid(

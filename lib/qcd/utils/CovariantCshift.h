@@ -54,6 +54,40 @@ namespace PeriodicBC {
   }
 }
 
+namespace AntiPeriodicBC { 
+
+  template<class covariant,class gauge> Lattice<covariant> CovShiftForward(const Lattice<gauge> &Link, 
+                      int mu,
+                      const Lattice<covariant> &field)
+  {
+    GridBase * grid = Link._grid;
+    int Lmu = grid->GlobalDimensions()[mu]-1;
+    conformable(field,Link);
+
+    Lattice<iScalar<vInteger> > coor(grid);
+    LatticeCoordinate(coor,mu);
+
+    Lattice<covariant> field_bc = Cshift(field,mu,1);// moves towards negative mu;
+    field_bc = where(coor==Lmu,-field_bc,field_bc);
+    return Link*field_bc;// moves towards negative mu
+  }
+  template<class covariant,class gauge> Lattice<covariant> CovShiftBackward(const Lattice<gauge> &Link, 
+                      int mu,
+                      const Lattice<covariant> &field)
+  {
+    GridBase * grid = Link._grid;
+    int Lmu = grid->GlobalDimensions()[mu]-1;
+    conformable(field,Link);
+
+    Lattice<iScalar<vInteger> > coor(grid);
+    LatticeCoordinate(coor,mu);
+
+    Lattice<covariant> tmp(field._grid);
+    tmp = adj(Link)*field;
+    tmp = where(coor==Lmu,-tmp,tmp);
+    return Cshift(tmp,mu,-1);// moves towards positive mu
+  }
+}
 
 namespace ConjugateBC { 
 

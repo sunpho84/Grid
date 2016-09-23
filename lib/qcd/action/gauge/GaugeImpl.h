@@ -169,6 +169,83 @@ public:
   static inline bool isPeriodicGaugeField(void) { return false; }
 };
 
+// Composition with smeared link, bc's etc.. probably need multiple inheritance
+// Variable precision "S" and variable Nc
+// pass binary int number that specifies where to apply AP bc
+// x = 00000001
+// y = 00000010
+// z = 00000100
+// t = 00001000 and so on
+template <class GimplTypes, int Switch = 0> class AntiperiodicGaugeImpl : public GimplTypes {
+public:
+  INHERIT_GIMPL_TYPES(GimplTypes);
+
+ static  inline int convert(int mu){
+    int s = 1;
+    for (int i = 0; i < mu; i++)
+      s *= 2;
+    
+    return s;
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Support needed for the assembly of loops including all boundary condition
+  // effects such as Gparity.
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  template <class covariant>
+  static Lattice<covariant> CovShiftForward(const GaugeLinkField &Link, int mu,
+                                            const Lattice<covariant> &field) {
+    if (convert(mu) & Switch)
+      return AntiPeriodicBC::CovShiftForward(Link, mu, field);
+    else
+      return PeriodicBC::CovShiftForward(Link, mu, field);
+  }
+
+  template <class covariant>
+  static Lattice<covariant> CovShiftBackward(const GaugeLinkField &Link, int mu,
+                                             const Lattice<covariant> &field) {
+    if (convert(mu) & Switch)
+      return AntiPeriodicBC::CovShiftBackward(Link, mu, field);
+    else
+      return PeriodicBC::CovShiftBackward(Link, mu, field);
+  }
+
+  static inline GaugeLinkField
+  CovShiftIdentityBackward(const GaugeLinkField &Link, int mu) {
+    GridBase * grid = Link._grid;
+    int Lmu = grid->GlobalDimensions()[mu]-1;
+
+    Lattice<iScalar<vInteger> > coor(grid);
+    LatticeCoordinate(coor,mu);
+
+    GaugeLinkField tmp = Cshift(adj(Link), mu, -1);
+    if (convert(mu) & Switch) tmp = where(coor == Lmu, -tmp, tmp);
+
+    return tmp; // moves towards positive mu
+  }
+  static inline GaugeLinkField
+  CovShiftIdentityForward(const GaugeLinkField &Link, int mu) {
+    return Link;
+  }
+
+  static inline GaugeLinkField ShiftStaple(const GaugeLinkField &Link, int mu) {
+    GridBase * grid = Link._grid;
+    int Lmu = grid->GlobalDimensions()[mu]-1;
+
+    Lattice<iScalar<vInteger> > coor(grid);
+    LatticeCoordinate(coor,mu);
+
+    GaugeLinkField tmp = Cshift(Link, mu, 1);
+    if (convert(mu) & Switch) tmp = where(coor == Lmu, -tmp, tmp);
+
+    return tmp;
+  }
+
+  static inline bool isPeriodicGaugeField(void) { return false; }
+};
+
+
+
+
 typedef GaugeImplTypes<vComplex, Nc> GimplTypesR;
 typedef GaugeImplTypes<vComplexF, Nc> GimplTypesF;
 typedef GaugeImplTypes<vComplexD, Nc> GimplTypesD;
@@ -180,6 +257,13 @@ typedef GaugeImplTypes<vComplexD, SU<Nc>::AdjointDimension> GimplAdjointTypesD;
 typedef PeriodicGaugeImpl<GimplTypesR> PeriodicGimplR; // Real.. whichever prec
 typedef PeriodicGaugeImpl<GimplTypesF> PeriodicGimplF; // Float
 typedef PeriodicGaugeImpl<GimplTypesD> PeriodicGimplD; // Double
+
+// define the standard ones for up to 5d lattices 
+// usage 
+// AP_X & AP_T enables antiperiodic in x and t
+enum {AP_X = 1, AP_Y = 2, AP_Z = 4, AP_T = 8, AP_W = 16};
+typedef AntiperiodicGaugeImpl<GimplTypesR, AP_T > T_AntiPeriodicGimplR; // Real.. whichever prec 
+
 
 typedef PeriodicGaugeImpl<GimplAdjointTypesR> PeriodicGimplAdjR; // Real.. whichever prec
 typedef PeriodicGaugeImpl<GimplAdjointTypesF> PeriodicGimplAdjF; // Float
