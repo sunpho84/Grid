@@ -850,8 +850,6 @@ template void WilsonKernels<A>::DiracOptHandDhopSiteDag(StencilImpl &st,Lebesgue
 
 INSTANTIATE_THEM(WilsonImplF);
 INSTANTIATE_THEM(WilsonImplD);
-INSTANTIATE_THEM(T_AntiPeriodicWilsonImplF);
-INSTANTIATE_THEM(T_AntiPeriodicWilsonImplD);
 INSTANTIATE_THEM(ZWilsonImplF);
 INSTANTIATE_THEM(ZWilsonImplD);
 INSTANTIATE_THEM(GparityWilsonImplF);

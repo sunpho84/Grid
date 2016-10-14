@@ -312,10 +312,5 @@ AdjointFermOpTemplateInstantiate(WilsonFermion);
 TwoIndexFermOpTemplateInstantiate(WilsonFermion);
 GparityFermOpTemplateInstantiate(WilsonFermion);
 
-  //Temporary hack for testing BC
-  template class WilsonFermion<T_AntiPeriodicWilsonImplF>;
-  template class WilsonFermion<T_AntiPeriodicWilsonImplD>;
-
-  
 }
 }

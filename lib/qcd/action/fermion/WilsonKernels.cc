@@ -528,10 +528,5 @@ FermOpTemplateInstantiate(WilsonKernels);
 AdjointFermOpTemplateInstantiate(WilsonKernels);
 TwoIndexFermOpTemplateInstantiate(WilsonKernels);
 
-  //Temporary hack for testing BC
-  template class WilsonKernels<T_AntiPeriodicWilsonImplF>;
-  template class WilsonKernels<T_AntiPeriodicWilsonImplD>;
-
-  
 }}
 

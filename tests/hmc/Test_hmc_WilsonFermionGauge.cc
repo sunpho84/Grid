@@ -42,7 +42,6 @@ class HmcRunner : public NerscHmcRunner {
   void BuildTheAction(int argc, char **argv)
 
   {
-    //typedef T_AntiPeriodicWilsonImplR ImplPolicy;
     typedef WilsonImplR ImplPolicy;
     typedef WilsonFermion<ImplPolicy> FermionAction;
     typedef typename FermionAction::FermionField FermionField;
@@ -61,8 +60,12 @@ class HmcRunner : public NerscHmcRunner {
     // Gauge action
     WilsonGaugeActionR Waction(5.6);
 
+    // These lines are unecessary if BC are all periodic
+    std::vector<Complex> boundary = {1,1,1,-1};
+    FermionAction::ImplParams Params(boundary);
+
     Real mass = -0.77;
-    FermionAction FermOp(U, *FGrid, *FrbGrid, mass);
+    FermionAction FermOp(U, *FGrid, *FrbGrid, mass,Params);
 
     ConjugateGradient<FermionField> CG(1.0e-8, 10000);
 
