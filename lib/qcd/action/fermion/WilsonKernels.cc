@@ -43,10 +43,9 @@ WilsonKernels<Impl>::WilsonKernels(const ImplParams &p) : Base(p){};
 ////////////////////////////////////////////
 
 template <class Impl>
-void WilsonKernels<Impl>::DiracOptGenericDhopSiteDag(
-    StencilImpl &st, LebesgueOrder &lo, DoubledGaugeField &U,
-    std::vector<SiteHalfSpinor, alignedAllocator<SiteHalfSpinor> > &buf, int sF,
-    int sU, const FermionField &in, FermionField &out) {
+void WilsonKernels<Impl>::DiracOptGenericDhopSiteDag(StencilImpl &st, LebesgueOrder &lo, DoubledGaugeField &U,
+                                                    std::vector<SiteHalfSpinor, alignedAllocator<SiteHalfSpinor> > &buf, int sF,
+                                                    int sU, const FermionField &in, FermionField &out) {
   SiteHalfSpinor tmp;
   SiteHalfSpinor chi;
   SiteHalfSpinor *chi_p;
@@ -396,8 +395,7 @@ void WilsonKernels<Impl>::DiracOptGenericDhopSite(
 };
 
 template <class Impl>
-void WilsonKernels<Impl>::DiracOptDhopDir(
-    StencilImpl &st, DoubledGaugeField &U,
+void WilsonKernels<Impl>::DiracOptDhopDir(StencilImpl &st, DoubledGaugeField &U,
     std::vector<SiteHalfSpinor, alignedAllocator<SiteHalfSpinor> > &buf, int sF,
     int sU, const FermionField &in, FermionField &out, int dir, int gamma) {
   SiteHalfSpinor tmp;

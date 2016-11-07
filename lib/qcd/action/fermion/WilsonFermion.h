@@ -82,12 +82,9 @@ class WilsonFermion : public WilsonKernels<Impl>, public WilsonFermionStatic {
   // Derivative interface
   ////////////////////////
   // Interface calls an internal routine
-  void DhopDeriv(GaugeField &mat, const FermionField &U, const FermionField &V,
-                 int dag);
-  void DhopDerivOE(GaugeField &mat, const FermionField &U,
-                   const FermionField &V, int dag);
-  void DhopDerivEO(GaugeField &mat, const FermionField &U,
-                   const FermionField &V, int dag);
+  void DhopDeriv(GaugeField &mat, const FermionField &U, const FermionField &V, int dag);
+  void DhopDerivOE(GaugeField &mat, const FermionField &U, const FermionField &V, int dag);
+  void DhopDerivEO(GaugeField &mat, const FermionField &U, const FermionField &V, int dag);
 
   ///////////////////////////////////////////////////////////////
   // non-hermitian hopping term; half cb or both
@@ -101,8 +98,7 @@ class WilsonFermion : public WilsonKernels<Impl>, public WilsonFermionStatic {
   ///////////////////////////////////////////////////////////////
   void Mdir(const FermionField &in, FermionField &out, int dir, int disp);
   void DhopDir(const FermionField &in, FermionField &out, int dir, int disp);
-  void DhopDirDisp(const FermionField &in, FermionField &out, int dirdisp,
-                   int gamma, int dag);
+  void DhopDirDisp(const FermionField &in, FermionField &out, int dirdisp, int gamma, int dag);
 
   ///////////////////////////////////////////////////////////////
   // Extra methods added by derived
@@ -110,13 +106,10 @@ class WilsonFermion : public WilsonKernels<Impl>, public WilsonFermionStatic {
   void DerivInternal(StencilImpl &st, DoubledGaugeField &U, GaugeField &mat,
                      const FermionField &A, const FermionField &B, int dag);
 
-  void DhopInternal(StencilImpl &st, LebesgueOrder &lo, DoubledGaugeField &U,
-                    const FermionField &in, FermionField &out, int dag);
+  void DhopInternal(StencilImpl &st, LebesgueOrder &lo, DoubledGaugeField &U, const FermionField &in, FermionField &out, int dag);
 
   // Constructor
-  WilsonFermion(GaugeField &_Umu, GridCartesian &Fgrid,
-                GridRedBlackCartesian &Hgrid, RealD _mass,
-                const ImplParams &p = ImplParams());
+  WilsonFermion(GaugeField &_Umu, GridCartesian &Fgrid, GridRedBlackCartesian &Hgrid, RealD _mass, const ImplParams &p = ImplParams());
 
   // DoubleStore impl dependent
   void ImportGauge(const GaugeField &_Umu);
