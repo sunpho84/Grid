@@ -4,7 +4,7 @@ SUBDIRS = lib benchmarks tests
 .PHONY: tests
 
 tests:
-	make -C tests tests
+	$(MAKE) -C tests tests $(MAKEFLAGS) 
 
 AM_CXXFLAGS += -I$(top_builddir)/include
 ACLOCAL_AMFLAGS = -I m4
