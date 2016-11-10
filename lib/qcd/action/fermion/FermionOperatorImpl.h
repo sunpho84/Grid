@@ -175,12 +175,10 @@ namespace QCD {
         LatticeCoordinate(coor, mu);
         int Lmu = GaugeGrid->GlobalDimensions()[mu] - 1;
         U = PeekIndex<LorentzIndex>(Umu, mu);
-        tmp = Params.boundary_phases[mu] * U;
-        tmp = where(coor == Lmu, tmp, U);
+        tmp = where(coor == Lmu, Params.boundary_phases[mu] * U, U);
         PokeIndex<LorentzIndex>(Uds, tmp, mu);
         U = adj(Cshift(U, mu, -1));
-        tmp = Params.boundary_phases[mu] * U;
-        U = where(coor == 0, tmp, U);
+        U = where(coor == 0, Params.boundary_phases[mu] * U, U);
         PokeIndex<LorentzIndex>(Uds, U, mu + 4);
       }
     }

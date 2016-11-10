@@ -87,16 +87,24 @@ template<class l,int N> strong_inline iMatrix<l,N> operator * (double lhs,const 
 
 ////////////////////////////////////////////////////////////////////
 // Complex support; cast to "scalar_type" through constructor
+// Note (Guido): the overloading of the definitions
+// to ComplexF is necessary for the intel compiler
 ////////////////////////////////////////////////////////////////////
 template<class l> strong_inline iScalar<l> operator * (const iScalar<l>& lhs,ComplexD rhs) 
 {
   typename iScalar<l>::scalar_type t;t=rhs;
   typename iScalar<l>::tensor_reduced srhs;srhs=t;
-  
-  
   return lhs*srhs;
 }
+template<class l> strong_inline iScalar<l> operator * (const iScalar<l>& lhs,ComplexF rhs) 
+{
+  typename iScalar<l>::scalar_type t;t=rhs;
+  typename iScalar<l>::tensor_reduced srhs;srhs=t;
+  return lhs*srhs;
+}
+
 template<class l> strong_inline iScalar<l> operator * (ComplexD lhs,const iScalar<l>& rhs) {  return rhs*lhs; }
+template<class l> strong_inline iScalar<l> operator * (ComplexF lhs,const iScalar<l>& rhs) {  return rhs*lhs; }
 
 template<class l,int N> strong_inline iVector<l,N> operator * (const iVector<l,N>& lhs,ComplexD rhs) 
 {
@@ -104,7 +112,15 @@ template<class l,int N> strong_inline iVector<l,N> operator * (const iVector<l,N
   typename iScalar<l>::tensor_reduced srhs;srhs=t;
   return lhs*srhs;
 }
+template<class l,int N> strong_inline iVector<l,N> operator * (const iVector<l,N>& lhs,ComplexF rhs) 
+{
+  typename iScalar<l>::scalar_type t;t=rhs;
+  typename iScalar<l>::tensor_reduced srhs;srhs=t;
+  return lhs*srhs;
+}
+
 template<class l,int N> strong_inline iVector<l,N> operator * (ComplexD lhs,const iVector<l,N>& rhs) {  return rhs*lhs; }
+template<class l,int N> strong_inline iVector<l,N> operator * (ComplexF lhs,const iVector<l,N>& rhs) {  return rhs*lhs; }
 
 template<class l,int N> strong_inline iMatrix<l,N> operator * (const iMatrix<l,N>& lhs,ComplexD rhs) 
 {
@@ -112,7 +128,14 @@ template<class l,int N> strong_inline iMatrix<l,N> operator * (const iMatrix<l,N
   typename iScalar<l>::tensor_reduced srhs;srhs=t;
   return lhs*srhs;
 }
+template<class l,int N> strong_inline iMatrix<l,N> operator * (const iMatrix<l,N>& lhs,ComplexF rhs) 
+{
+  typename iScalar<l>::scalar_type t;t=rhs;
+  typename iScalar<l>::tensor_reduced srhs;srhs=t;
+  return lhs*srhs;
+}
 template<class l,int N> strong_inline iMatrix<l,N> operator * (ComplexD lhs,const iMatrix<l,N>& rhs) {  return rhs*lhs; }
+template<class l,int N> strong_inline iMatrix<l,N> operator * (ComplexF lhs,const iMatrix<l,N>& rhs) {  return rhs*lhs; }
 
 ////////////////////////////////////////////////////////////////////
 // Integer support; cast to "scalar_type" through constructor
