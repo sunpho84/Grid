@@ -345,6 +345,7 @@ PARALLEL_FOR_LOOP
 #include "Lattice_rng.h"
 #include "Lattice_unary.h"
 #include "Lattice_transfer.h"
+#include "Lattice_switch_grid.h"
 
 
 #endif

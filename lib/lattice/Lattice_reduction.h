@@ -43,6 +43,11 @@ namespace Grid {
     return std::real(nrm); 
   }
 
+
+  template<class vobj> inline RealD norm2highprecision(const Lattice<vobj> &arg){
+  	//tranform the precision 
+  }
+
     template<class vobj>
     inline ComplexD innerProduct(const Lattice<vobj> &left,const Lattice<vobj> &right) 
     {

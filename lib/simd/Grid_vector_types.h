@@ -410,11 +410,18 @@ class Grid_simd {
   	return ((Scalar_type*)&v)[lane];
   }
 
-  inline void putlane(Scalar_type &S, int lane){
+  inline void putlane(const Scalar_type &S, int lane){
   	((Scalar_type*)&v)[lane] = S;
   }
 
 };  // end of Grid_simd class definition
+
+
+// Convert compatible Grid types lanes
+template<class Grid_vin, class Grid_vout>
+inline void convertType(Grid_vin &in, Grid_vout &out, int lane_in, int lane_out){
+	out.putlane((typename Grid_vout::scalar_type) in.getlane(lane_in),lane_out);	
+}
 
 
 inline void permute(ComplexD &y,ComplexD b, int perm) {  y=b; }
@@ -464,10 +471,6 @@ inline void vbroadcast(Grid_simd<S,V> &ret,const Grid_simd<S,V> &src,int lane){
   S* typepun =(S*) &src;
   vsplat(ret,typepun[lane]);
 }    
-
-
-
-
 
 ///////////////////////
 // Splat

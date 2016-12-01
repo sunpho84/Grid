@@ -86,10 +86,16 @@ class iScalar {
     return *this;
   }
 
+
+  // managing the internal vector structure
   strong_inline scalar_object getlane(int lane){
     scalar_object ret;
     ret._internal = _internal.getlane(lane);
     return ret;
+  }
+
+  strong_inline void putlane(scalar_object &s, int lane){
+    _internal.putlane(s._internal,lane);
   }
 
   friend strong_inline void vstream(iScalar<vtype> &out,
@@ -187,6 +193,12 @@ strong_inline auto TensorRemove(iScalar<vtype> arg)
   return TensorRemove(arg._internal);
 }
 
+template<class vtype_in, class vtype_out >
+strong_inline void convertType(iScalar<vtype_in> &in, iScalar<vtype_out> &out, int lane_in, int lane_out){
+  convertType(in._internal, out._internal, lane_in, lane_out);
+}
+
+
 template <class vtype, int N>
 class iVector {
  public:
@@ -269,6 +281,10 @@ class iVector {
     return ret;
   }
 
+  strong_inline void putlane(scalar_object &s, int lane){
+    for (int i = 0; i < N; i++) _internal[i].putlane(s._internal[i],lane);
+  }
+
   // *=,+=,-= operators inherit from corresponding "*,-,+" behaviour
   strong_inline iVector<vtype, N> &operator*=(const iScalar<vtype> &r) {
     *this = (*this) * r;
@@ -298,6 +314,13 @@ class iVector {
   //      return _internal[i];
   //    }
 };
+
+template<class vtype_in, class vtype_out, int N >
+strong_inline void convertType(iVector<vtype_in,N> &in, iVector<vtype_out,N> &out, int lane_in, int lane_out){
+  for (int i = 0; i < N; i++) 
+  convertType(in._internal[i], out._internal[i], lane_in, lane_out);
+}
+
 
 template <class vtype, int N>
 class iMatrix {
@@ -410,6 +433,11 @@ class iMatrix {
     return ret;
   }
 
+  strong_inline void putlane(scalar_object &s, int lane){
+    for (int i = 0; i < N; i++) 
+    for (int j = 0; j < N; j++) _internal[i][j].putlane(s._internal[i][j],lane);
+  }
+
   // *=,+=,-= operators inherit from corresponding "*,-,+" behaviour
   template <class T>
   strong_inline iMatrix<vtype, N> &operator*=(const T &r) {
@@ -448,10 +476,23 @@ class iMatrix {
     return stream;
   };
 
+  
+
+
   //  strong_inline vtype && operator ()(int i,int j) {
   //    return _internal[i][j];
   //  }
 };
+
+template<class vtype_in, class vtype_out, int N >
+strong_inline void convertType(iMatrix<vtype_in,N> &in, iMatrix<vtype_out,N> &out, int lane_in, int lane_out){
+  for (int i = 0; i < N; i++) 
+      for (int j = 0; j < N; j++) 
+  convertType(in._internal[i][j], out._internal[i][j], lane_in, lane_out);
+}
+
+
+
 
 template <class v>
 void vprefetch(const iScalar<v> &vv) {

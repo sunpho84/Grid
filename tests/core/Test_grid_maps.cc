@@ -73,20 +73,54 @@ int main(int argc, char** argv) {
   pRNG_F.SeedRandomDevice();
 
   std::cout << GridLogMessage << "vComplexF grid " << std::endl;
-  print_grid(GridF);
+  //print_grid(GridF);
 
   std::cout << GridLogMessage << "vComplexD grid " << std::endl;
-  print_grid(GridD);
+  //print_grid(GridD);
 
 
   LatticeGaugeField U(GridF);
+  LatticeGaugeField U2(GridF);
   gaussian(pRNG_F, U);
-  
+  gaussian(pRNG_F, U2);
 
   auto Ulane = U._odata[0].getlane(0);
+
+
 
   std::cout << GridLogMessage << U._odata[0] << std::endl;
 
   std::cout << GridLogMessage << "Lane 0 " << Ulane << std::endl;
+
+  std::cout << GridLogMessage << U2._odata[0] << std::endl;
+
+  // change data and reprint
+  U2._odata[0].putlane(Ulane, 0);
+  std::cout << "After changing one lane" << std::endl;
+  std::cout << GridLogMessage << U2._odata[0] << std::endl;
+
+  switch_grid(U,U2);
+  std::cout << "After switching fields" << std::endl;
+  std::cout << GridLogMessage << U2._odata[0] << std::endl;
+
+  // Test with different precision
+  LatticeGaugeField Udouble(GridD);
+  switch_grid(U,Udouble);
+  std::cout << "After switching fields to double precision" << std::endl;
+  std::cout << GridLogMessage << U2._odata[0] << std::endl;
+
+  // Now lets time it to measure the overhead
+  // call n times
+  int ncalls = 100;
+  double total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    //gaussian(pRNG_F, U);
+    double t0 = usecond();
+    switch_grid(U, Udouble);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
 
 }
