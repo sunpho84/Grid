@@ -403,6 +403,17 @@ class Grid_simd {
     }
   }
 
+  ///////////////////////////////
+  // Getting single lanes
+  ///////////////////////////////
+  inline Scalar_type getlane(int lane) {
+  	return ((Scalar_type*)&v)[lane];
+  }
+
+  inline void putlane(Scalar_type &S, int lane){
+  	((Scalar_type*)&v)[lane] = S;
+  }
+
 };  // end of Grid_simd class definition
 
 
@@ -445,11 +456,18 @@ inline void rotate(Grid_simd<S,V> &ret,Grid_simd<S,V> b,int nrot)
   ret.v = Optimization::Rotate::rotate(b.v,2*nrot);
 }
 
+///////////////////////////////
+// Broadcasting
+///////////////////////////////
 template <class S, class V> 
 inline void vbroadcast(Grid_simd<S,V> &ret,const Grid_simd<S,V> &src,int lane){
   S* typepun =(S*) &src;
   vsplat(ret,typepun[lane]);
 }    
+
+
+
+
 
 ///////////////////////
 // Splat
@@ -725,6 +743,9 @@ inline Grid_simd<std::complex<R>, V> toComplex(const Grid_simd<R, V> &in) {
   ret.v = conv.v;
   return ret;
 }
+
+
+
 
 ///////////////////////////////
 // Define available types

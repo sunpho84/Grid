@@ -85,6 +85,13 @@ class iScalar {
     zeroit(*this);
     return *this;
   }
+
+  strong_inline scalar_object getlane(int lane){
+    scalar_object ret;
+    ret._internal = _internal.getlane(lane);
+    return ret;
+  }
+
   friend strong_inline void vstream(iScalar<vtype> &out,
                                     const iScalar<vtype> &in) {
     vstream(out._internal, in._internal);
@@ -255,6 +262,13 @@ class iVector {
     for (int i = 0; i < N; i++) ret._internal[i] = -r._internal[i];
     return ret;
   }
+
+  strong_inline scalar_object getlane(int lane){
+    scalar_object ret;
+    for (int i = 0; i < N; i++) ret._internal[i] = _internal[i].getlane(lane); 
+    return ret;
+  }
+
   // *=,+=,-= operators inherit from corresponding "*,-,+" behaviour
   strong_inline iVector<vtype, N> &operator*=(const iScalar<vtype> &r) {
     *this = (*this) * r;
@@ -341,7 +355,7 @@ class iMatrix {
   friend strong_inline void zeroit(iMatrix<vtype,N> &that){
     for(int i=0;i<N;i++){
       for(int j=0;j<N;j++){
-	zeroit(that._internal[i][j]);
+        zeroit(that._internal[i][j]);
     }}
   }
   friend strong_inline void prefetch(iMatrix<vtype,N> &that){
@@ -352,26 +366,26 @@ class iMatrix {
   friend strong_inline void vstream(iMatrix<vtype,N> &out,const iMatrix<vtype,N> &in){
       for(int i=0;i<N;i++){
       for(int j=0;j<N;j++){
-	vstream(out._internal[i][j],in._internal[i][j]);
+        vstream(out._internal[i][j],in._internal[i][j]);
       }}
   }
   friend strong_inline void vbroadcast(iMatrix<vtype,N> &out,const iMatrix<vtype,N> &in,int lane){
       for(int i=0;i<N;i++){
       for(int j=0;j<N;j++){
-	vbroadcast(out._internal[i][j],in._internal[i][j],lane);
+        vbroadcast(out._internal[i][j],in._internal[i][j],lane);
       }}
   }
 
   friend strong_inline void permute(iMatrix<vtype,N> &out,const iMatrix<vtype,N> &in,int permutetype){
     for(int i=0;i<N;i++){
       for(int j=0;j<N;j++){
-	permute(out._internal[i][j],in._internal[i][j],permutetype);
+        permute(out._internal[i][j],in._internal[i][j],permutetype);
     }}
   }
   friend strong_inline void rotate(iMatrix<vtype,N> &out,const iMatrix<vtype,N> &in,int rot){
     for(int i=0;i<N;i++){
       for(int j=0;j<N;j++){
-	rotate(out._internal[i][j],in._internal[i][j],rot);
+        rotate(out._internal[i][j],in._internal[i][j],rot);
     }}
   }
 
@@ -385,6 +399,17 @@ class iMatrix {
     }
     return ret;
   }
+
+  strong_inline scalar_object getlane(int lane){
+    scalar_object ret;
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+        ret._internal[i][j] = _internal[i][j].getlane(lane);
+      }
+    } 
+    return ret;
+  }
+
   // *=,+=,-= operators inherit from corresponding "*,-,+" behaviour
   template <class T>
   strong_inline iMatrix<vtype, N> &operator*=(const T &r) {
