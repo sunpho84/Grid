@@ -45,7 +45,8 @@ namespace Grid {
 
 
   template<class vobj> inline RealD norm2highprecision(const Lattice<vobj> &arg){
-  	//tranform the precision 
+    //tranform the precision 
+    // need to infer the higher precision type from the vobj
   }
 
     template<class vobj>
