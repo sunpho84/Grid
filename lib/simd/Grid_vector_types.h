@@ -74,6 +74,23 @@ struct RealPart<std::complex<T> > {
   typedef T type;
 };
 
+
+//////////////////////////////////////////////////
+// To take the higher precision version
+//////////////////////////////////////////////////
+template <typename T>
+struct HigherPrecision{
+	typedef T type; //default, no change
+}
+// specialisations
+template <> struct HigherPrecision<float> {
+	typedef double type;
+}
+template <> struct HigherPrecision<std::complex<float>> {
+	typedef std::complex<double> type;
+}
+
+
 //////////////////////////////////////
 // demote a vector to real type
 //////////////////////////////////////
