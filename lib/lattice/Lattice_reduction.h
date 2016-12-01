@@ -110,7 +110,7 @@ PARALLEL_FOR_LOOP
 
       GridBase *grid = left._grid;
 
-      std::vector<vector_high_prec,alignedAllocator<vector_type> > sumarray(grid->SumArraySize());
+      std::vector<vector_high_prec,alignedAllocator<vector_high_prec> > sumarray(grid->SumArraySize());
       for(int i=0;i<grid->SumArraySize();i++){
         sumarray[i]=zero;
       }
