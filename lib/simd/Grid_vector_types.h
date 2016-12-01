@@ -697,6 +697,35 @@ inline Grid_simd<S, V> innerProduct(const Grid_simd<S, V> &l,
   return conjugate(l) * r;
 }
 
+// high precision version
+template <class S>
+inline Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> innerProductHP(const Grid_simd<S, SIMD_Ftype> &l,
+                                    																				const Grid_simd<S, SIMD_Ftype> &r) {
+  Grid_simd<S,SIMD_Ftype> tmp = conjugate(l) * r;
+  typedef Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> simdD;
+  typedef Grid_simd<S, SIMD_Ftype> simdF; 
+  simdD ret;
+  typename simdD::conv_t convD;
+  typename simdF::conv_t convF;
+  convF.v = tmp.v;
+  for (int i=0; i < simdD::Nsimd(); i++){
+  	convD.s[i] = convF.s[2*i] + convF.s[2*i+1];
+  }
+  ret.v = convD.v;
+  return ret;
+}
+
+// high precision version, need this specialization
+template <class S>
+inline Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> innerProductHP(const Grid_simd<S, SIMD_Dtype> &l,
+                                    																				const Grid_simd<S, SIMD_Dtype> &r) {
+  return conjugate(l) * r;
+}
+
+
+
+
+
 template <class S, class V>
 inline Grid_simd<S, V> outerProduct(const Grid_simd<S, V> &l,
                                     const Grid_simd<S, V> &r) {

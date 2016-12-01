@@ -45,7 +45,10 @@ namespace Grid {
 
 
   template<class vobj> inline RealD norm2highprecision(const Lattice<vobj> &arg){
-    //tranform the precision 
+    //tranform the precision
+    ComplexD nrm = innerProductVersion2(arg,arg);
+    return std::real(nrm);
+    /* 
     typedef typename vobj::vector_high_prec vhigh_prec;
     if(getPrecision<vobj>::value == 1){ // float at compile time
       // get a new grid
@@ -56,7 +59,8 @@ namespace Grid {
       return norm2(argD);
     } else {
       return norm2(arg);
-    }  
+    } 
+    */ 
   }
 
     template<class vobj>
@@ -64,6 +68,7 @@ namespace Grid {
     {
       typedef typename vobj::scalar_type scalar_type;
       typedef typename vobj::vector_type vector_type;
+
       scalar_type  nrm;
 
       GridBase *grid = left._grid;
@@ -93,6 +98,44 @@ PARALLEL_FOR_LOOP
       right._grid->GlobalSum(nrm);
       return nrm;
     }
+
+  template<class vobj>
+    inline ComplexD innerProductVersion2(const Lattice<vobj> &left,const Lattice<vobj> &right) 
+    {
+      typedef typename vobj::scalar_type scalar_type;
+      typedef typename vobj::vector_type vector_type;
+      typedef typename vobj::vector_high_prec vector_high_prec;
+
+      scalar_type  nrm;
+
+      GridBase *grid = left._grid;
+
+      std::vector<vector_high_prec,alignedAllocator<vector_type> > sumarray(grid->SumArraySize());
+      for(int i=0;i<grid->SumArraySize();i++){
+        sumarray[i]=zero;
+      }
+
+PARALLEL_FOR_LOOP
+      for(int thr=0;thr<grid->SumArraySize();thr++){
+        int nwork, mywork, myoff;
+        GridThread::GetWork(left._grid->oSites(),thr,mywork,myoff);
+        
+        decltype(innerProductHP(left._odata[0],right._odata[0])) vnrm=zero; // private to thread; sub summation
+        for(int ss=myoff;ss<mywork+myoff; ss++){
+          vnrm = vnrm + innerProductHP(left._odata[ss],right._odata[ss]);
+        }
+        sumarray[thr]=TensorRemove(vnrm) ;
+      }
+    
+      vector_high_prec vvnrm; vvnrm=zero;  // sum across threads
+      for(int i=0;i<grid->SumArraySize();i++){
+        vvnrm = vvnrm+sumarray[i];
+      } 
+      nrm = Reduce(vvnrm);// sum across simd
+      right._grid->GlobalSum(nrm);
+      return nrm;
+    }
+
 
     template<class Op,class T1>
       inline auto sum(const LatticeUnaryExpression<Op,T1> & expr)
