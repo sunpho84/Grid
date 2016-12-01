@@ -56,10 +56,13 @@ class iScalar {
   typedef vtype element;
   typedef typename GridTypeMapper<vtype>::scalar_type scalar_type;
   typedef typename GridTypeMapper<vtype>::vector_type vector_type;
+  typedef typename GridTypeMapper<vtype>::vector_high_prec vector_high_prec;  
   typedef typename GridTypeMapper<vtype>::tensor_reduced tensor_reduced_v;
   typedef iScalar<tensor_reduced_v> tensor_reduced;
   typedef typename GridTypeMapper<vtype>::scalar_object recurse_scalar_object;
   typedef iScalar<recurse_scalar_object> scalar_object;
+  typedef typename GridTypeMapper<vtype>::high_prec_object recurse_highprec_object;
+  typedef iScalar<recurse_highprec_object> high_prec_object;
 
   // substitutes a real or complex version with same tensor structure
   typedef iScalar<typename GridTypeMapper<vtype>::Complexified> Complexified;
@@ -207,10 +210,14 @@ class iVector {
   typedef vtype element;
   typedef typename GridTypeMapper<vtype>::scalar_type scalar_type;
   typedef typename GridTypeMapper<vtype>::vector_type vector_type;
+  typedef typename GridTypeMapper<vtype>::vector_high_prec vector_high_prec;    
   typedef typename GridTypeMapper<vtype>::tensor_reduced tensor_reduced_v;
   typedef typename GridTypeMapper<vtype>::scalar_object recurse_scalar_object;
   typedef iScalar<tensor_reduced_v> tensor_reduced;
   typedef iVector<recurse_scalar_object, N> scalar_object;
+  typedef typename GridTypeMapper<vtype>::high_prec_object recurse_highprec_object;
+  typedef iVector<recurse_highprec_object,N> high_prec_object;
+
 
   // substitutes a real or complex version with same tensor structure
   typedef iVector<typename GridTypeMapper<vtype>::Complexified, N> Complexified;
@@ -330,8 +337,10 @@ class iMatrix {
   typedef vtype element;
   typedef typename GridTypeMapper<vtype>::scalar_type scalar_type;
   typedef typename GridTypeMapper<vtype>::vector_type vector_type;
+  typedef typename GridTypeMapper<vtype>::vector_high_prec vector_high_prec;    
   typedef typename GridTypeMapper<vtype>::tensor_reduced tensor_reduced_v;
   typedef typename GridTypeMapper<vtype>::scalar_object recurse_scalar_object;
+  typedef typename GridTypeMapper<vtype>::high_prec_object recurse_highprec_object;
 
   // substitutes a real or complex version with same tensor structure
   typedef iMatrix<typename GridTypeMapper<vtype>::Complexified, N> Complexified;
@@ -340,6 +349,7 @@ class iMatrix {
   // Tensure removal
   typedef iScalar<tensor_reduced_v> tensor_reduced;
   typedef iMatrix<recurse_scalar_object, N> scalar_object;
+  typedef iMatrix<recurse_highprec_object, N> high_prec_object;
 
   enum { TensorLevel = GridTypeMapper<vtype>::TensorLevel + 1 };
 

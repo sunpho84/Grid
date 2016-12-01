@@ -46,7 +46,17 @@ namespace Grid {
 
   template<class vobj> inline RealD norm2highprecision(const Lattice<vobj> &arg){
     //tranform the precision 
-    // need to infer the higher precision type from the vobj
+    typedef typename vobj::vector_high_prec vhigh_prec;
+    if(getPrecision<vobj>::value == 1){ // float at compile time
+      // get a new grid
+      auto gridD = arg._grid->clone();
+      gridD->Init(arg._grid->FullDimensions() , GridDefaultSimd(arg._grid->Nd(), vhigh_prec::Nsimd()), arg._grid->_processors);
+      Lattice<typename vobj::high_prec_object> argD(gridD.get());
+      switch_grid(arg, argD);
+      return norm2(argD);
+    } else {
+      return norm2(arg);
+    }  
   }
 
     template<class vobj>

@@ -53,6 +53,8 @@ namespace Grid {
   public:
     typedef typename T::scalar_type scalar_type;
     typedef typename T::vector_type vector_type;
+    typedef typename T::vector_high_prec vector_high_prec;
+    typedef typename T::high_prec_object high_prec_object;
     typedef typename T::tensor_reduced tensor_reduced;
     typedef typename T::scalar_object scalar_object;
     typedef typename T::Complexified Complexified;
@@ -67,6 +69,8 @@ namespace Grid {
   public:
     typedef RealF scalar_type;
     typedef RealF vector_type;
+    typedef RealD vector_high_prec;
+    typedef RealD high_prec_object;
     typedef RealF tensor_reduced ;
     typedef RealF scalar_object;
     typedef ComplexF Complexified;
@@ -77,6 +81,8 @@ namespace Grid {
   public:
     typedef RealD scalar_type;
     typedef RealD vector_type;
+    typedef RealD vector_high_prec;    
+    typedef RealD high_prec_object;
     typedef RealD tensor_reduced;
     typedef RealD scalar_object;
     typedef ComplexD Complexified;
@@ -87,6 +93,8 @@ namespace Grid {
   public:
     typedef ComplexF scalar_type;
     typedef ComplexF vector_type;
+    typedef ComplexD vector_high_prec;    
+    typedef ComplexD high_prec_object;
     typedef ComplexF tensor_reduced;
     typedef ComplexF scalar_object;
     typedef ComplexF Complexified;
@@ -97,6 +105,8 @@ namespace Grid {
   public:
     typedef ComplexD scalar_type;
     typedef ComplexD vector_type;
+    typedef ComplexD vector_high_prec;
+    typedef ComplexD high_prec_object;
     typedef ComplexD tensor_reduced;
     typedef ComplexD scalar_object;
     typedef ComplexD Complexified;
@@ -107,6 +117,8 @@ namespace Grid {
   public:
     typedef Integer scalar_type;
     typedef Integer vector_type;
+    typedef Integer vector_high_prec;
+    typedef Integer high_prec_object;
     typedef Integer tensor_reduced;
     typedef Integer scalar_object;
     typedef void Complexified;
@@ -118,6 +130,8 @@ namespace Grid {
   public:
     typedef RealF  scalar_type;
     typedef vRealF vector_type;
+    typedef vRealD vector_high_prec;
+    typedef vRealD high_prec_object;
     typedef vRealF tensor_reduced;
     typedef RealF  scalar_object;
     typedef vComplexF Complexified;
@@ -128,6 +142,8 @@ namespace Grid {
   public:
     typedef RealD  scalar_type;
     typedef vRealD vector_type;
+    typedef vRealD vector_high_prec;    
+    typedef vRealD high_prec_object;
     typedef vRealD tensor_reduced;
     typedef RealD  scalar_object;
     typedef vComplexD Complexified;
@@ -138,6 +154,8 @@ namespace Grid {
   public:
     typedef ComplexF  scalar_type;
     typedef vComplexF vector_type;
+    typedef vComplexD vector_high_prec;
+    typedef vComplexD high_prec_object;
     typedef vComplexF tensor_reduced;
     typedef ComplexF  scalar_object;
     typedef vComplexF Complexified;
@@ -148,6 +166,8 @@ namespace Grid {
   public:
     typedef ComplexD  scalar_type;
     typedef vComplexD vector_type;
+    typedef vComplexD vector_high_prec;
+    typedef vComplexD high_prec_object;
     typedef vComplexD tensor_reduced;
     typedef ComplexD  scalar_object;
     typedef vComplexD Complexified;
@@ -158,6 +178,8 @@ namespace Grid {
   public:
     typedef  Integer scalar_type;
     typedef vInteger vector_type;
+    typedef vInteger vector_high_prec;
+    typedef vInteger high_prec_object;
     typedef vInteger tensor_reduced;
     typedef  Integer scalar_object;
     typedef void Complexified;

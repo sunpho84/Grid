@@ -28,7 +28,7 @@ Author: paboyle <paboyle@ph.ed.ac.uk>
     /*  END LEGAL */
 #ifndef GRID_CARTESIAN_BASE_H
 #define GRID_CARTESIAN_BASE_H
-
+#include <memory>
 
 namespace Grid{
 
@@ -48,6 +48,7 @@ public:
     template<class object> friend class Lattice;
 
     GridBase(const std::vector<int> & processor_grid) : CartesianCommunicator(processor_grid) {};
+
 
 
     // Physics Grid information.
@@ -71,7 +72,13 @@ public:
     //    std::vector<int> _lend;       // local end of array in gcoors    _processor_coor[d]*_ldimensions[d]+_ldimensions_[d]-1
 
 public:
-
+    typedef std::shared_ptr<GridBase> GridPtr;
+    virtual GridPtr clone() const = 0; 
+    
+    virtual void Init(const std::vector<int> &dimensions,
+		      const std::vector<int> &simd_layout,
+		      const std::vector<int> &processor_grid) = 0;
+      
     ////////////////////////////////////////////////////////////////
     // Checkerboarding interface is virtual and overridden by 
     // GridCartesian / GridRedBlackCartesian

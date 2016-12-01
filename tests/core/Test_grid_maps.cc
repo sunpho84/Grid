@@ -79,8 +79,8 @@ int main(int argc, char** argv) {
   //print_grid(GridD);
 
 
-  LatticeGaugeField U(GridF);
-  LatticeGaugeField U2(GridF);
+  LatticeGaugeFieldF U(GridF);
+  LatticeGaugeFieldF U2(GridF);
   gaussian(pRNG_F, U);
   gaussian(pRNG_F, U2);
 
@@ -104,14 +104,17 @@ int main(int argc, char** argv) {
   std::cout << GridLogMessage << U2._odata[0] << std::endl;
 
   // Test with different precision
-  LatticeGaugeField Udouble(GridD);
+  LatticeGaugeFieldD Udouble(GridD);
   switch_grid(U,Udouble);
   std::cout << "After switching fields to double precision" << std::endl;
   std::cout << GridLogMessage << U2._odata[0] << std::endl;
 
+  std::cout << "Compare norms - single: " << norm2highprecision(U) << "   double: "<< norm2highprecision(Udouble) << std::endl;
+  std::cout << "Compare norms - single: " << norm2(U) << "   double: "<< norm2(Udouble) << std::endl;
+
   // Now lets time it to measure the overhead
   // call n times
-  int ncalls = 100;
+  int ncalls = 1000;
   double total_time = 0.0;
   for (int i = 0; i < ncalls; i++){
     //gaussian(pRNG_F, U);

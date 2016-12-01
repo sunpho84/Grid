@@ -30,7 +30,7 @@
 #define GRID_LATTICE_SWITCH_H
 
 namespace Grid {
-  template<class vobj_in, class vobj_out> inline void switch_grid(Lattice<vobj_in>& in, Lattice<vobj_out>& out){
+  template<class vobj_in, class vobj_out> inline void switch_grid(const Lattice<vobj_in>& in, Lattice<vobj_out>& out){
     GridBase* grid_in  = in._grid;
     GridBase* grid_out = out._grid;
     assert(grid_in->_gdimensions == grid_out->_gdimensions);

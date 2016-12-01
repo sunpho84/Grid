@@ -775,6 +775,7 @@ struct is_simd<vComplexD> : public std::true_type {};
 template <>
 struct is_simd<vInteger> : public std::true_type {};
 
+
 template <typename T>
 using IfSimd = Invoke<std::enable_if<is_simd<T>::value, int> >;
 template <typename T>
