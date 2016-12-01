@@ -81,14 +81,14 @@ struct RealPart<std::complex<T> > {
 template <typename T>
 struct HigherPrecision{
 	typedef T type; //default, no change
-}
+};
 // specialisations
 template <> struct HigherPrecision<float> {
 	typedef double type;
-}
+};
 template <> struct HigherPrecision<std::complex<float>> {
 	typedef std::complex<double> type;
-}
+};
 
 
 //////////////////////////////////////
