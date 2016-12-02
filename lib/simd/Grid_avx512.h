@@ -513,6 +513,7 @@ namespace Optimization {
 
   // Arithmetic operations
   typedef Optimization::Sum         SumSIMD;
+  typedef Optimization::SumLanesHP  SumLanesHPSIMD;
   typedef Optimization::Sub         SubSIMD;
   typedef Optimization::Mult        MultSIMD;
   typedef Optimization::Div         DivSIMD;

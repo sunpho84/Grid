@@ -325,41 +325,6 @@ inline void blockPromote(const Lattice<iVector<CComplex,nbasis > > &coarseData,
   
 }
 
-// Useful for precision conversion, or indeed anything where an operator= does a conversion on scalars.
-// Simd layouts need not match since we use peek/poke Local
-template<class vobj,class vvobj>
-void localConvert(const Lattice<vobj> &in,Lattice<vvobj> &out)
-{
-  typedef typename vobj::scalar_object sobj;
-  typedef typename vvobj::scalar_object ssobj;
-
-  sobj s;
-  ssobj ss;
-
-  GridBase *ig = in._grid;
-  GridBase *og = out._grid;
-
-  int ni = ig->_ndimension;
-  int no = og->_ndimension;
-
-  assert(ni == no);
-
-  for(int d=0;d<no;d++){
-    assert(ig->_processors[d]  == og->_processors[d]);
-    assert(ig->_ldimensions[d] == og->_ldimensions[d]);
-  }
-
-  //PARALLEL_FOR_LOOP
-  for(int idx=0;idx<ig->lSites();idx++){
-    std::vector<int> lcoor(ni);
-    ig->LocalIndexToLocalCoor(idx,lcoor);
-    peekLocalSite(s,in,lcoor);
-    ss=s;
-    pokeLocalSite(ss,out,lcoor);
-  }
-}
-
-
 template<class vobj>
 void InsertSlice(Lattice<vobj> &lowDim,Lattice<vobj> & higherDim,int slice, int orthog)
 {

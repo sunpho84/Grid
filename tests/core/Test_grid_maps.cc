@@ -144,8 +144,8 @@ int main(int argc, char** argv) {
     total_time += usecond() - t0;
   }
 
-  std::cout << "norm2 single : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
-  std::cout << "norm2 single : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "norm2 single : Total time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2 single : Total time per call "<< total_time/ncalls << " usec" << std::endl;  
 
   total_time = 0.0;
   for (int i = 0; i < ncalls; i++){
@@ -154,8 +154,10 @@ int main(int argc, char** argv) {
     total_time += usecond() - t0;
   }
 
-  std::cout << "norm2highprecision single : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
-  std::cout << "norm2highprecision single : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "norm2highprecision single : Total time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2highprecision single : Total time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "Expected ratio ~3/2" << std::endl;
+
 
   total_time = 0.0;
   for (int i = 0; i < ncalls; i++){
@@ -164,8 +166,9 @@ int main(int argc, char** argv) {
     total_time += usecond() - t0;
   }
 
-  std::cout << "norm2 double : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
-  std::cout << "norm2 double : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "norm2 double : Total time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2 double : Total time per call "<< total_time/ncalls << " usec" << std::endl;  
+
 
   total_time = 0.0;
   for (int i = 0; i < ncalls; i++){
@@ -174,8 +177,8 @@ int main(int argc, char** argv) {
     total_time += usecond() - t0;
   }
 
-  std::cout << "norm2highprecision double : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
-  std::cout << "norm2highprecision double : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "norm2highprecision double : Total time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2highprecision double : Total time per call "<< total_time/ncalls << " usec" << std::endl;  
 
 
 }
