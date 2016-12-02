@@ -185,6 +185,7 @@ namespace Optimization {
   };
 
   struct SumLanesHP {
+    // All AVX functions
     //from single to double precision and sum
     // only this defined right now
     inline __m256d operator()(__m256 a) {

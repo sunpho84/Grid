@@ -162,6 +162,21 @@ namespace Optimization {
     }
   };
 
+  struct SumLanesHP {
+    // All AVX functions
+    //from single to double precision and sum
+    // only this defined right now
+    inline __m128d operator()(__m128 a) {
+      __m128d b = _mm_cvtps_pd(a);
+      __m128 tmp = _mm_movehl_ps (a,a);
+      __m128d c = _mm_cvtps_pd(tmp);
+      // sum
+      return _mm_add_pd (b,c);
+    }
+  };
+
+
+
   struct Sub{
     //Complex/Real float
     inline __m128 operator()(__m128 a, __m128 b){

@@ -167,7 +167,7 @@ namespace Optimization {
     //from single to double precision and sum
     // only this defined right now
     inline __m512d operator()(__m512 a) {
-      // extract 128 blocks
+      // extract 512 blocks
       __m256 low  = _mm512_extractf32x8_ps(a, 0);
       __m256 high = _mm512_extractf32x8_ps(a, 1);
       // convert
