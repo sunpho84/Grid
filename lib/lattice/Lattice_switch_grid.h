@@ -48,7 +48,6 @@ PARALLEL_FOR_LOOP
       int out_iSite = grid_out->iIndex(lcoor);
 
       // transform the internal tensors
-      //out._odata[out_oSite].putlane(vobj_out::scalar_object(in._odata[in_oSite].getlane(in_iSite)),out_iSite);
       convertType(in._odata[in_oSite], out._odata[out_oSite], in_iSite, out_iSite);
     }
 

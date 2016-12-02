@@ -184,7 +184,21 @@ namespace Optimization {
     }
   };
 
-  struct Sub{
+  struct SumLanesHP {
+    //from single to double precision and sum
+    inline __m256d operator()(__m256 a) {
+      // extract 128 blocks
+      __m128 low  = _mm256_extractf128_ps(a, 0);
+      __m128 high = _mm256_extractf128_ps(a, 1);
+      // convert
+      __m256d b = _mm256_cvtps_pd (low);
+      __m256d c = _mm256_cvtps_pd (high);
+      return _mm256_add_pd (b,c);
+    }
+
+  };
+
+  struct Sub {
     //Complex/Real float
     inline __m256 operator()(__m256 a, __m256 b){
       return _mm256_sub_ps(a,b);
@@ -624,6 +638,7 @@ namespace Optimization {
 
   // Arithmetic operations
   typedef Optimization::Sum         SumSIMD;
+  typedef Optimization::SumLanesHP  SumLanesHPSIMD;
   typedef Optimization::Sub         SubSIMD;
   typedef Optimization::Div         DivSIMD;
   typedef Optimization::Mult        MultSIMD;

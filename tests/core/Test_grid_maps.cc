@@ -117,16 +117,65 @@ int main(int argc, char** argv) {
   int ncalls = 1000;
   double total_time = 0.0;
   for (int i = 0; i < ncalls; i++){
-    //gaussian(pRNG_F, U);
     double t0 = usecond();
     switch_grid(U, Udouble);
     total_time += usecond() - t0;
   }
 
-  std::cout << "Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
-  std::cout << "Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+  std::cout << "switch_grid: Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "switch_grid: Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+
+  total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    double t0 = usecond();
+    precisionChange(U,Udouble);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "PrecisionChange: Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "PrecisionChange: Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
 
 
+  // Timings for the norm
+  total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    double t0 = usecond();
+    double nrm = norm2(U);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "norm2 single : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2 single : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+
+  total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    double t0 = usecond();
+    double nrm = norm2highprecision(U);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "norm2highprecision single : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2highprecision single : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+
+  total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    double t0 = usecond();
+    double nrm = norm2(Udouble);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "norm2 double : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2 double : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
+
+  total_time = 0.0;
+  for (int i = 0; i < ncalls; i++){
+    double t0 = usecond();
+    double nrm = norm2highprecision(Udouble);
+    total_time += usecond() - t0;
+  }
+
+  std::cout << "norm2highprecision double : Total overhead time for "<< ncalls << " calls : " << total_time << " usec" <<std::endl;
+  std::cout << "norm2highprecision double : Total overhead time per call "<< total_time/ncalls << " usec" << std::endl;  
 
 
 }

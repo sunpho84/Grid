@@ -702,9 +702,14 @@ template <class S>
 inline Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> innerProductHP(const Grid_simd<S, SIMD_Ftype> &l,
                                     																				const Grid_simd<S, SIMD_Ftype> &r) {
   Grid_simd<S,SIMD_Ftype> tmp = conjugate(l) * r;
+
   typedef Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> simdD;
   typedef Grid_simd<S, SIMD_Ftype> simdF; 
   simdD ret;
+	ret.v = unary<SIMD_Ftype>(tmp.v, SumLanesHPSIMD());
+
+
+/*
   typename simdD::conv_t convD;
   typename simdF::conv_t convF;
   convF.v = tmp.v;
@@ -712,7 +717,9 @@ inline Grid_simd<typename HigherPrecision<S>::type, SIMD_Dtype> innerProductHP(c
   	convD.s[i] = convF.s[2*i] + convF.s[2*i+1];
   }
   ret.v = convD.v;
+  */
   return ret;
+
 }
 
 // high precision version, need this specialization
