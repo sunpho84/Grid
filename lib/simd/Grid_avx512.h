@@ -162,6 +162,22 @@ namespace Optimization {
     }
   };
 
+
+  struct SumLanesHP {
+    //from single to double precision and sum
+    // only this defined right now
+    inline __m512d operator()(__m512 a) {
+      // extract 128 blocks
+      __m256 low  = _mm512_extractf32x8_ps(a, 0);
+      __m256 high = _mm512_extractf32x8_ps(a, 1);
+      // convert
+      __m512d b = _mm512_cvtps_pd (low);
+      __m512d c = _mm512_cvtps_pd (high);
+      // sum
+      return _mm512_add_pd(b,c);
+    }
+  };
+
   struct Sub{
     //Complex/Real float
     inline __m512 operator()(__m512 a, __m512 b){

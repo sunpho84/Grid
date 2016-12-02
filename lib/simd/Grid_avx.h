@@ -186,6 +186,7 @@ namespace Optimization {
 
   struct SumLanesHP {
     //from single to double precision and sum
+    // only this defined right now
     inline __m256d operator()(__m256 a) {
       // extract 128 blocks
       __m128 low  = _mm256_extractf128_ps(a, 0);
@@ -193,9 +194,9 @@ namespace Optimization {
       // convert
       __m256d b = _mm256_cvtps_pd (low);
       __m256d c = _mm256_cvtps_pd (high);
+      // sum
       return _mm256_add_pd (b,c);
     }
-
   };
 
   struct Sub {
