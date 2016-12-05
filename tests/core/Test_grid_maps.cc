@@ -109,6 +109,7 @@ int main(int argc, char** argv) {
   std::cout << "After switching fields to double precision" << std::endl;
   std::cout << GridLogMessage << U2._odata[0] << std::endl;
 
+  std::cout << setprecision(15);
   std::cout << "Compare norms - single: " << norm2highprecision(U) << "   double: "<< norm2highprecision(Udouble) << std::endl;
   std::cout << "Compare norms - single: " << norm2(U) << "   double: "<< norm2(Udouble) << std::endl;
 
